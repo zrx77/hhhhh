@@ -1,0 +1,58 @@
+[Version]
+Signature="$WINDOWS NT$"
+Class=SCSIAdapter
+ClassGuid={4d36e97b-e325-11ce-bfc1-08002be10318}
+Provider=%HAOZIP%
+DriverVer=07/11/2012, 3.00.0000
+Catalogfile = HaoZipVirtualCDBus.cat
+
+[DestinationDirs]
+DefaultDestDir = 12
+
+[SourceDisksNames.x86]
+1 = %DiskId1%,,,
+
+[SourceDisksNames.amd64]
+1 = %DiskId1%,,,
+
+[SourceDisksFiles.x86]
+HaoZipVirtualCDBus.sys  = 1
+
+[SourceDisksFiles.amd64]
+HaoZipVirtualCDBus.sys  = 1
+
+[Manufacturer]
+%HAOZIP%=Standard, NTamd64
+
+[Standard]
+%HaoZipVirtualCDBus.DeviceDesc%=HaoZipVirtualCDBus_Device, root\HaoZipVirtualCDBus
+
+[Standard.NTamd64]
+%HaoZipVirtualCDBus.DeviceDesc%=HaoZipVirtualCDBus_Device, root\HaoZipVirtualCDBus
+
+[HaoZipVirtualCDBus_Device.NT]
+CopyFiles=Drivers_Dir
+
+[Drivers_Dir]
+HaoZipVirtualCDBus.sys,,,2
+
+;-------------- Service installation
+[HaoZipVirtualCDBus_Device.NT.Services]
+AddService = HaoZipVirtualCDBus,%SPSVCINST_ASSOCSERVICE%, dev_Service_Inst
+
+; -------------- busenum driver install sections
+[dev_Service_Inst]
+DisplayName    = %dev.SVCDESC%
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 3               ; SERVICE_DEMAND_START 
+ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\HaoZipVirtualCDBus.sys
+LoadOrderGroup = Extended Base
+
+
+[Strings]
+SPSVCINST_ASSOCSERVICE= 0x00000002
+HAOZIP = "Shanghai RuiChuang"
+DiskId1 = "HaoZip installation directory"
+HaoZipVirtualCDBus.DeviceDesc = "HaoZip Virtual Bus"
+dev.SVCDESC = "HaoZip Virtual Bus Driver"
